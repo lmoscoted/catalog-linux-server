@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Catalog App</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    
+    <!-- Custom styles for this template -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/shop-item.css') }}">
+  
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+      <a class="navbar-brand" style="font-size:xx-large;font-weight: bold;" href="/catalog">Item Catalog App</a>
+        
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/catalog">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a href = '{{url_for('disconnect')}}' class="btn btn-success">Logout</a>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+
+    
+
+
+        <div class="col-lg-3">
+          <!-- <a class="add-category"href="{{url_for('newCategory')}}">Add Category</a> -->
+          <h2 class="my-4">Categories</h2>
+          <a class="my-4" style="text-decoration: underline;font-weight: bold; color: #00f;margin: 30px auto"href="{{url_for('newCategory')}}">Add Category</a>
+          
+          <div class="list-group">
+
+          	{% for category in categories %}
+            <a href="{{url_for('showItems',category_name=category.name)}}" class="list-group-item " style="font-weight: bold;font-size:large;">{{category.name}}</a>
+            <div class="edit-delete" style="text-decoration: underline;font-weight: bold;margin: 0px 20px 10px 20px ; font-size: small;color: #00f">
+            <a href = '{{url_for('editCategory', category_name=category.name)}}'> Edit  </a>
+		      	<a href = '{{url_for('deleteCategory', category_name=category.name)}}'> Delete  </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-lg-9">
+
+          <div class="card mt-4">
+
+            <div class= 'flash' style="color: black; margin: 5px auto;font-size:large;font-weight: bold">
+             {% with messages = get_flashed_messages() %}
+             {% if messages %} 
+        
+              <ul>
+            {% for message in messages %}
+                <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+             </ul>
+           {% endif %}
+           {% endwith %}
+          </div>
+
+            <!-- <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt=""> -->
+            <div class="card-body">
+              <h2 class="card-title" style=" margin-top: 0px ">Latest Items</h2>
+              {% for item in latest_items %}
+
+               
+            <a href="{{url_for('infoItem',category_name=category_item[loop.index0],item_name=item.name)}}" class="list-group-item">{{item.name}} ({{category_item[loop.index0]}})</a>
+      
+            <!-- <p class="list-group-item"> {{category_item[loop.index0]}}  </p>
+  -->
+ 
+
+            {% endfor %}
+          
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Catalog App 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  </body>
+
+</html>

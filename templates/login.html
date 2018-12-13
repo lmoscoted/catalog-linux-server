@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+  
+<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+
+<!--LOAD PRE-REQUISITES FOR sign in template -->
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>  
+
+
+<!-- GOOGLE PLUS SIGN IN data--->
+<!-- clientid="97026417027-1q5e70017ukr8p9u56vvvbreq2n6c3mi.apps.googleusercontent.com" -->
+
+          
+<!-- sign in  Card -->
+<div class="container">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">LOG IN WITH GOOGLE</h3>
+        </div>
+          <div class="panel-body">
+            <form accept-charset="UTF-8" role="form">
+                    <fieldset>
+                
+ 
+
+          <div id="signinButton">
+            <span class="g-signin"
+              data-scope="openid email"
+              data-clientid="1090900757982-90qbn4uv5ss26iv2s2sqqv96b5p73bt8.apps.googleusercontent.com"
+              data-accesstype="offline"
+              data-cookiepolicy="single_host_origin"
+              data-callback="signInCallback"
+              data-redirecturi="postmessage"
+              data-approvalprompt="force">
+              
+      
+
+            </span>
+        </div>
+
+            </fieldset>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End sign in  Card -->
+<div id="result">
+  <form action="/login">
+  <input id= "CSFR" name=_csrf_token type=hidden value="{{STATE}}">
+</form>
+</div>
+
+
+
+<script>
+function signInCallback(authResult) {
+  
+  if (authResult['code']) {
+    // Hide the sign-in button now that the user is authorized
+    $('#signinButton').attr('style', 'display: none');
+    /*var csfr = document.getElementByID("CSFR");
+    csfr.value = {{STATE}};*/
+    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main page
+    $.ajax({
+      type: 'POST',
+      url: '/gconnect?state={{STATE}}',
+      processData: false,
+      data: authResult['code'],
+      contentType: 'application/octet-stream; charset=utf-8',
+      success: function(result) {
+        // Handle or verify the server response if necessary.
+        if (result) {
+          /*$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')*/
+         
+          window.location.href = "/catalog";
+         
+          
+      } else if (authResult['error']) {
+    console.log('There was an error: ' + authResult['error']);
+  } else {
+         //window.location.href = "/catalog";
+        $('#result').html('Failed to make a server-side call. Check your configuration and console.' + authResult + ' result ' + result);
+         }
+      }
+      
+  }); } }
+</script>
+
+
+
+<!--END GOOGLE PLUS SIGN IN -->
+
+<!--FACEBOOK SIGN IN -->
+
+<!--END FACEBOOK SIGN IN -->
+
+
+
+  </body>
+
+  </html>
