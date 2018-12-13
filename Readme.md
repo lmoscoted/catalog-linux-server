@@ -164,17 +164,25 @@ engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
  </Directory>
 
 '''
+* Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
 * cd /var/www
-* Create application app: sudo mkdir catalog-linux-server
-* (Inside project directory create a virtual envirinment) virtualenv env
+* clone the Item catalog project: sudo git clone https://github.com/lmoscoted/catalog-linux-server.git
+
+* (Inside project directory create a virtual environment) sudo virtualenv env
  * Activate environment: source env/bin/activate
  * _Install all needed modules_ inside the environment
+ * First we have to get all modules from our Linux VM where ran our project. On the terminal: pip freeze > requirements.txt
+ * Now inside the current directory project: pip install -r requirements.txt
 
-
-* Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
 
 
 * Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your *.git* directory is not publicly accessible via a browser! 
+    * Create WSGI file to link the application app: sudo nano /var/www/catalog-linux-server/catalogapp.wsgi
+    '''
+    import sys 
+    sys.insert(0,"/var/www/catalog-linux-server")
+    from init import app as application
+    '''
 
 
 
@@ -237,6 +245,8 @@ https://pythontips.com/2013/07/30/what-is-virtualenv/
 https://docs.python-guide.org/dev/virtualenvs/
 
 https://stackoverflow.com/questions/739993/how-can-i-get-a-list-of-locally-installed-python-modules
+https://www.youtube.com/watch?v=wq0saslschw
+
 
 
 
