@@ -101,7 +101,9 @@ PasswordAuthentication yes
  * sudo apt-get install apache2
  * sudo apt-get install libapache2-mod-wsgi-py
  * (3 (My project was built with Python3))
- * 
+ 
+ 
+ 
 
 If you are running Debian or Ubuntu Linux with Apache 2.4 system packages, regardless of which Apache MPM is being used, you would need both:
 
@@ -122,17 +124,57 @@ WSGIPythonHome "/usr")
 * Change the postgres user’s Linux password: sudo passwd postgres
 * Issue the following commands to set a password for the postgres database user. Be sure to replace newpassword with a strong password and keep it in a secure place:
 su - postgres
-psql -d template1 -c "ALTER USER postgres WITH PASSWORD 'newpassword';"
+psql -d template1 -c   "ALTER USER postgres WITH PASSWORD 'newpassword';"
 
 Note that this user is distinct from the postgres Linux user. The Linux user is used to access the database, and the PostgreSQL user is used to perform administrative tasks on the databases.
 
  * Do not allow remote connections 
- * Create a new database user named catalog that has limited permissions to your catalog application database.
+ We can double check that no remote connections are allowed by looking in the host based authentication file:
+ sudo nano /etc/postgresql/9.5/main/pg_hba.conf
+
+local   all             all                                     md5
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
+
+
+ * Create a new database user named catalog that has limited permissions to your catalog application database.  
+ * CREATE USER catalog WITH CREATEDB,LOGIN
+ * Set password: \password catalog
+ * psql -h localhost -U catalog *mydatabase*
+
+
+
+dialect+driver://username:password@host:port/database
+engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
+
  
-*  Install git.
+*  Install git: As ubuntu user, sudo apt-get install git
 ## Deploy the Item Catalog project.
+* Install pip: sudo apt-get install python-pip
+ * Install virtualenv: pip install virtualenv
+ 
+* Create the configuration file for the catalog website: sudo cp /etc/apache2/sites-available/000-default.conf catalog.conf
+'''
+ ServerName www.example.com
+
+ WSGIScriptAlias / /var/www/catalog-linux-server/catalogapp.wsgi
+ <Directory /var/www/catalog-linux-server>
+ Order allow,deny
+ Allow from all
+ </Directory>
+
+'''
+* cd /var/www
+* Create application app: sudo mkdir catalog-linux-server
+* (Inside project directory create a virtual envirinment) virtualenv env
+ * Activate environment: source env/bin/activate
+ * _Install all needed modules_ inside the environment
+
+
 * Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
-* Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your *.git* directory is not publicly accessible via a browser!
+
+
+* Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your *.git* directory is not publicly accessible via a browser! 
 
 
 
@@ -182,6 +224,22 @@ http://www.learnexia.com/?p=327
 https://stackoverflow.com/questions/44914961/install-mod-wsgi-on-ubuntu-with-python-3-6-apache-2-4-and-django-1-11
 
 https://www.linode.com/docs/databases/postgresql/how-to-install-postgresql-on-ubuntu-16-04/
+
+https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps
+
+https://linuxhint.com/postgresql_python/
+
+https://wiki.postgresql.org/wiki/Psycopg2_Tutorial
+
+https://docs.sqlalchemy.org/en/latest/core/engines.html
+
+https://pythontips.com/2013/07/30/what-is-virtualenv/
+https://docs.python-guide.org/dev/virtualenvs/
+
+https://stackoverflow.com/questions/739993/how-can-i-get-a-list-of-locally-installed-python-modules
+
+
+
 
 
 
