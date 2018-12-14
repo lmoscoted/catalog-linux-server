@@ -8,5 +8,5 @@ def test():
 
 if __name__ =='__main__':
 	app.secret_key = 'super_secret_key'
-    app.run()
+    app.run(host='www.35.247.193.231.xip.io', port=80)
 
