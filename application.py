@@ -34,7 +34,7 @@ CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
 engine = create_engine(
-    'postgresql://catalog:2018catitem@localhost/catalogitems.db',
+    'postgresql://catalog:2018catitem@localhost/catalogitems',
     connect_args={
         'check_same_thread': False},
     poolclass=StaticPool)  # Which DB python will communicate with
