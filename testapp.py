@@ -7,7 +7,7 @@ app = Flask(__name__)
 def test():
     return "It works !!"
 
-if __name__ =='__main_':
+if __name__ =='__main__':
     app.secret_key = 'super_secret_key'
     app.run()
 

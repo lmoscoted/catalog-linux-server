@@ -30,10 +30,10 @@ with open('user.csv', 'r') as user_file:
     for u in user_dict:
         print(u)
 
-        user = User(name=u['name'], email=u['email'],
+        userc = User(name=u['name'], email=u['email'],
                     picture=u['picture'])
 
-        session.add(user)
+        session.add(userc)
         session.commit()
 
 # Categories Creation

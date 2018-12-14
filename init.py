@@ -13,6 +13,7 @@ import random
 import requests
 import json
 import httplib2
+import psycopg2
 
 from sqlalchemy import create_engine
 from sqlalchemy import desc
@@ -28,7 +29,7 @@ from oauth2client.client import FlowExchangeError
 from database_setup import Base, Category, Item, User
 
 app = Flask(__name__)
-
+print("OK")
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
@@ -38,11 +39,25 @@ engine = create_engine(
     connect_args={
         'check_same_thread': False},
     poolclass=StaticPool)  # Which DB python will communicate with
+
 Base.metadata.bind = engine  # Makes connection between class and tables
+print(engine)
+#--------------------------------------------------------------------------
+try:
+    conn = psycopg2.connect("dbname='catalogitems' user='catalog'host='localhost' password='2018catitem'")
+    print("connected to the database")
+except:
+    print("unable to connect to the database")
+
+
+#---------------------------------------------------------------------------
+
+print("OK")
 
 # Link of communication between our code execution
 DBSession = sessionmaker(bind=engine)
 session = DBSession()  # interefaz that allow to create DB operations
+print("OK")
 
 
 # Create random string for the Google Code and CSFR token
@@ -53,6 +68,7 @@ def some_random_string():
             string.digits) for x in xrange(32))
     return random_string
 
+print("OK")
 
 state = some_random_string()
 
@@ -68,6 +84,7 @@ def csrf_protect():
             abort(403)
 
 # Endpint for the login
+print("OK")
 
 
 @app.route('/login', endpoint='showLogin')
@@ -252,20 +269,27 @@ def categoryItemsJSON(category_name, item_name):
 
 # Main web page
 
+print("OK")
 
 @app.route('/')
 @app.route('/catalog', methods=['GET', 'POST'])
 def showCategories():
+    print("OK Main Page")
 
     categories = session.query(Category).order_by(Category.name)
     # items = session.query(Item).order_by("Item.date_update desc")
     items = session.query(Item).order_by(desc(Item.date_update))
     latest_items = items.limit(10)
+    print(categories)
+    print(latest_items)
     category_item = []
+    print("OK query Login")
     # Getting the category names for the latest items
     for i in latest_items:
         cat_name = session.query(Category).filter_by(id=i.category_id).one()
         category_item.append(cat_name.name)
+        print("cat_name")
+    print("OK for query")
     # Run public template for unregistered users
     if 'username' not in login_session:
         return render_template(
@@ -601,6 +625,6 @@ def createUser(login_session):
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
-    #app.debug = True
-    #app.run(host='0.0.0.0', port=5000)
-    app.run()
+    # app.debug = False
+    app.run(host='0.0.0.0')
+    # app.run()
