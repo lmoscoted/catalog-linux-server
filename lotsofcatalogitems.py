@@ -53,14 +53,16 @@ with open('item.csv', 'r') as item_file:
 
     item_dict = csv.DictReader(item_file)
 
-    for item in item_dict:
-        item = Item(name=item['name'],
-                    description=buffer(item['description']),
-                    picture=item['picture'],
-                    price=item['price'],
-                    category_id=(item['category_id']),
-                    user_id=(item['user_id']))
-
+    for it in item_dict:
+        
+        item = Item(name=it['name'],
+                    description=buffer(it['description']),
+                    picture=it['picture'],
+                    price=it['price'],
+                    category_id=(it['category_id']),
+                    user_id=(it['user_id']))
+        print(it['category_id'])
+        print(it['user_id'])
         session.add(item)
         session.commit()
 
