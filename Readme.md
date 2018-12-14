@@ -141,6 +141,7 @@ host    all             all             ::1/128                 md5
  * Create a new database user named catalog that has limited permissions to your catalog application database.  
  * CREATE USER catalog WITH CREATEDB,LOGIN
  * Set password: \password catalog
+ * Create Database for the catalog app: 
  * psql -h localhost -U catalog *mydatabase*
 
 

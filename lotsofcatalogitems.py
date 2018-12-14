@@ -5,7 +5,7 @@ import csv
 from database_setup import Category, Base, Item, User
 
 
-engine = create_engine('postgresql:///catalogitems.db')
+engine = create_engine('postgresql://catalog:2018catitem@localhost/catalogitems.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
