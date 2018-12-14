@@ -58,8 +58,8 @@ with open('item.csv', 'r') as item_file:
                     description=buffer(item['description']),
                     picture=item['picture'],
                     price=item['price'],
-                    category_id=int(item['category_id']),
-                    user_id=int(item['user_id']))
+                    category_id=(item['category_id']),
+                    user_id=(item['user_id']))
 
         session.add(item)
         session.commit()
