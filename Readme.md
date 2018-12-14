@@ -3,6 +3,7 @@
 Item Catalog App is an application that provides a list of items within a variety of categories as well as provide a user registration and authentication system provided by third-party authentication & authorization service (Google). Registered users will have the ability to post, edit and delete their own items/categories. In the same way, by implementing a Local System Permission, an user can only edit or delete an item/category if it has been created by him. Moreover, this app has three JSON endpoints that serves the same information as displayed in the HTML endpoints for an arbitrary item in the catalog. 
 
 ip Address: 35.247.193.231 
+* Defining DNS www.35.247.193.231.xip.io
 
 _Note_ you need to set up your External Ip address as static.
 * Go to he main menu on Google Cloud Platform, select VPC Network
@@ -155,8 +156,8 @@ engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
  
 * Create the configuration file for the catalog website: sudo cp /etc/apache2/sites-available/000-default.conf catalog.conf
 '''
- ServerName www.example.com
-
+ ServerName www.35.247.193.231.xip.io
+ DocumentRoot /var/www/catalog-linux-server
  WSGIScriptAlias / /var/www/catalog-linux-server/catalogapp.wsgi
  <Directory /var/www/catalog-linux-server>
  Order allow,deny
@@ -177,12 +178,19 @@ engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
 
 
 * Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your *.git* directory is not publicly accessible via a browser! 
+
+
+
     * Create WSGI file to link the application app: sudo nano /var/www/catalog-linux-server/catalogapp.wsgi
     '''
     import sys 
     sys.insert(0,"/var/www/catalog-linux-server")
-    from init import app as application
+    from FILENAMEAPPLICATION import app as application
     '''
+    * Disable the default website: sudo a2dissite 000-default.conf
+    * Restart Apache: sudo service apache2 reload
+    * Enable the project site: sudo a2ensite catalog.conf
+    * Restart Apache: sudo service apache2 reload
 
 
 
