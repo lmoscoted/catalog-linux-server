@@ -1,3 +1,9 @@
+# import sys 
+
+# sys.path.insert(0, "/var/www/catalog-linux-server")
+
+# from testapp import app as application
+
 from flask import Flask
 
 app = Flask(__name__)
@@ -8,5 +14,5 @@ def test():
 
 if __name__ =='__main__':
     app.secret_key = 'super_secret_key'
-    app.run(host='www.35.247.193.231.xip.io', port=80)
+    app.run()
 
