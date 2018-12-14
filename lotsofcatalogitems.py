@@ -61,8 +61,8 @@ with open('item.csv', 'r') as item_file:
                     price=it['price'],
                     category_id=(it['category_id']),
                     user_id=(it['user_id']))
-        print(it['category_id'])
-        print(it['user_id'])
+        # print(it['category_id'])
+        # print(it['user_id'])
         session.add(item)
         session.commit()
 

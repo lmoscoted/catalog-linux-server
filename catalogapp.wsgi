@@ -1,18 +1,19 @@
-# import sys 
+import sys 
 
-# sys.path.insert(0, "/var/www/catalog-linux-server")
+sys.path.insert(0, "/var/www/catalog-linux-server")
 
-# from testapp import app as application
+from init import app as application
 
-from flask import Flask
+#from flask import Flask
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
-@app.route('/')
-def test():
-    return "It works !!"
+#@app.route('/catalog')
+#@app.route('/')
+#def test():
+#    return "It works !!"
 
-if __name__ =='__main__':
-    app.secret_key = 'super_secret_key'
-    app.run()
+#if __name__ =='__main__':
+#    app.secret_key = 'super_secret_key'
+#    app.run(host='www.35.247.193.231.xip.io', port=80)
 
