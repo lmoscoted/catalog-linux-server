@@ -55,7 +55,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     description = Column(String(1000))
     price = Column(String(8))
-    picture = Column(String(250), nullable=True)
+    picture = Column(String(1000), nullable=True)
     category_id = Column(Integer, ForeignKey('category.id'))
     date_creation = Column(DateTime(timezone=True),
                            server_default=func.now())
