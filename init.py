@@ -106,7 +106,7 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-    print(code)
+    print("This is the code: "%code)
     try:
         # Upgrade the authorized code into a credentials object
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
