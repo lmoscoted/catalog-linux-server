@@ -21,6 +21,7 @@ DBSession = sessionmaker(bind=engine)
 # calling session.rollback()
 session = DBSession()
 
+# SET client_encoding TO 'UTF-8'
 
 # Users creation
 with open('user.csv', 'r') as user_file:
