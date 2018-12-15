@@ -19,7 +19,7 @@ Base = declarative_base()
 
 class User(Base):
 
-    __tablename__ = 'user'
+    __tablename__ = 'userc'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
@@ -32,7 +32,7 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('userc.id'))
     user = relationship(User)
     items = relationship("Item")
 
@@ -62,7 +62,7 @@ class Item(Base):
     date_update = Column(DateTime(timezone=True),
                          server_default=func.now())
     category = relationship(Category, back_populates='items')
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('userc.id'))
     user = relationship(User)
 
     @property

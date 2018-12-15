@@ -1,9 +1,10 @@
+#!/usr/bin/python
 import sys 
 
 sys.path.insert(0, "/var/www/catalog-linux-server")
 
 from init import app as application
-
+application.secret_key = "super_secret_key"
 #from flask import Flask
 
 #app = Flask(__name__)
