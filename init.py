@@ -106,7 +106,7 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-
+    print(code)
     try:
         # Upgrade the authorized code into a credentials object
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
@@ -119,6 +119,8 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         print('Failed to upgrade the authorization code. ')
         return response
+    print("RESPONSE")    
+    print(response)    
     # Check that the access token is valid.
     access_token = credentials.access_token
     url = (
@@ -127,6 +129,7 @@ def gconnect():
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
+    print("Result is %s" % result)
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 50)
         response.headers['Content-Type'] = 'application/json'
