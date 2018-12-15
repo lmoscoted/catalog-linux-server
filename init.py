@@ -110,9 +110,10 @@ def gconnect():
     try:
         # Upgrade the authorized code into a credentials object
         oauth_flow = flow_from_clientsecrets('/var/www/catalog-linux-server/client_secrets.json', scope='')
+        print("THIS IS OAUTHFLOW:%s" % oauth_flow)
         oauth_flow.redirect_uri = 'postmessage'
+        print("THIS IS OAUTHFLOWREDI:%s "%oauth_flow.redirect_uri)
         credentials = oauth_flow.step2_exchange(code)
-        print("THIS IS OAUTH FLOW:%s "%oauth_flow)
         print("THIS CREDENTIALS: %s"%credentials)
     except FlowExchangeError:
         response = make_response(
