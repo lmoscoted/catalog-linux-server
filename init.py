@@ -121,13 +121,6 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         print('Failed to upgrade the authorization code. ')
         return response
-<<<<<<< HEAD
-    print("RESPONSE")    
-    # print(response)    
-=======
-    # print("RESPONSE")    
-        
->>>>>>> 33db116ce1468fd3cf2caee67152e38e4e33802c
     # Check that the access token is valid.
     access_token = credentials.access_token
     # print("ACCESS TOKEN: %s" %access_token)
