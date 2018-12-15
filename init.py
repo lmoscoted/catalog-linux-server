@@ -122,7 +122,7 @@ def gconnect():
         print('Failed to upgrade the authorization code. ')
         return response
     print("RESPONSE")    
-    print(response)    
+    # print(response)    
     # Check that the access token is valid.
     access_token = credentials.access_token
     print("ACCESS TOKEN: %s" %access_token)
