@@ -192,6 +192,9 @@ engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
     * Restart Apache: sudo service apache2 reload
     * Enable the project site: sudo a2ensite catalog.conf
     * Restart Apache: sudo service apache2 reload
+* Change in application file:
+* engine = create_engine('postgresql://scott:tiger@localhost/mydatabase')
+* Install and import psycopg and psycopg2-binary
 
 
 
@@ -255,6 +258,10 @@ https://docs.python-guide.org/dev/virtualenvs/
 
 https://stackoverflow.com/questions/739993/how-can-i-get-a-list-of-locally-installed-python-modules
 https://www.youtube.com/watch?v=wq0saslschw
+
+https://blog.codeasite.com/how-do-i-find-apache-http-server-log-files/
+
+https://www.ionos.com/community/server-cloud-infrastructure/apache/how-to-fix-http-error-code-500-internal-server-error/
 
 
 
