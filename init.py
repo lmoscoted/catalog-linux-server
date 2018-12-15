@@ -29,7 +29,7 @@ from oauth2client.client import FlowExchangeError
 from database_setup import Base, Category, Item, User
 
 app = Flask(__name__)
-print("OK")
+# print("OK")
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
@@ -44,23 +44,23 @@ engine = create_engine(
     poolclass=StaticPool) 
 
 Base.metadata.bind = engine  # Makes connection between class and tables
-print(engine)
+# print(engine)
 #--------------------------------------------------------------------------
-try:
-    conn = psycopg2.connect("dbname='catalogitems' user='catalog'host='localhost' password='2018catitem'")
-    print("connected to the database")
-except:
-    print("unable to connect to the database")
+# try:
+#     conn = psycopg2.connect("dbname='catalogitems' user='catalog'host='localhost' password='2018catitem'")
+#     print("connected to the database")
+# except:
+#     print("unable to connect to the database")
 
 
 #---------------------------------------------------------------------------
 
-print("OK")
+# print("OK")
 
 # Link of communication between our code execution
 DBSession = sessionmaker(bind=engine)
 session = DBSession()  # interefaz that allow to create DB operations
-print("OK")
+# print("OK")
 
 
 # Create random string for the Google Code and CSFR token
@@ -71,7 +71,7 @@ def some_random_string():
             string.digits) for x in xrange(32))
     return random_string
 
-print("OK")
+# print("OK")
 
 state = some_random_string()
 
@@ -87,7 +87,7 @@ def csrf_protect():
             abort(403)
 
 # Endpint for the login
-print("OK")
+# print("OK")
 
 
 @app.route('/login', endpoint='showLogin')
@@ -235,14 +235,11 @@ def disconnect():
 # Making an API Endpoint (GET Request)
 @app.route('/catalog/JSON')
 def categoriesJSON():
-    print("Test3")
+    # print("Test3")
     category_list = session.query(Category)
-    print(iter(category_list))
-    print(type(category_list))
-    print(category_list)
-    for cat in category_list:
-       print("It works")
-       print(cat.name)
+    # print(iter(category_list))
+    # print(type(category_list))
+    # print(category_list)
 
     if not category_list:
         error = [{'Error Message': 'There are not available categories '}]
@@ -279,34 +276,31 @@ def categoryItemsJSON(category_name, item_name):
 
 # Main web page
 
-print("OK")
+# print("OK")
 
 @app.route('/')
 @app.route('/catalog', methods=['GET', 'POST'])
 def showCategories():
-    print("OK Main Page")
+    # print("OK Main Page")
 
     categories = session.query(Category).order_by(Category.name)
     # items = session.query(Item).order_by("Item.date_update desc")
     items = session.query(Item).order_by(desc(Item.date_update))
     latest_items = items.limit(10)
-    print(categories)
-    for c in categories:
-        print(c.name)
-    print(latest_items)
+    # print(categories)
     category_item = []
-    print("OK2 query Login")
+    # print("OK2 query Login")
     # Getting the category names for the latest items
     for i in latest_items:
-        print("PRINT 1 FOR")
+        # print("PRINT 1 FOR")
         cat_name = session.query(Category).filter_by(id=i.category_id).one()
-        print("PRINT 2 FOR")
+        # print("PRINT 2 FOR")
         category_item.append(cat_name.name)
-        print(i.name)
-    print("OK2 for query")
+        # print(i.name)
+    # print("OK2 for query")
     # Run public template for unregistered users
     if 'username' not in login_session:
-        print("OK if ")
+        # print("OK if ")
         return render_template(
             'publiccategories.html',
             categories=categories,
@@ -314,7 +308,7 @@ def showCategories():
             latest_items=latest_items,
             category_item=category_item)
     else:
-        print("OK else")
+        # print("OK else")
         return render_template(
             'categories.html',
             categories=categories,
