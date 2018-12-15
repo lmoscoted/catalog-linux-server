@@ -75,7 +75,7 @@ def some_random_string():
 
 state = some_random_string()
 
-
+print("THIS is state: %s" %state)
 # CFSR Protection
 @app.before_request
 def csrf_protect():
@@ -83,7 +83,7 @@ def csrf_protect():
     if request.method == "POST" and (request.endpoint != 'gconnect'):
         token = state
         print("THIS IS TOKEN: %s"%token)
-        print("THIS IS: %s" % request.form.get('_csrf_token'))
+        print("THIS IS _csrf_token: %s" % request.form.get('_csrf_token'))
         # Forbidden action if there is not code or it is fake
         if not token or token != request.form.get('_csrf_token'):
             abort(403)
