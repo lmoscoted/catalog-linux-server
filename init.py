@@ -33,7 +33,7 @@ app = Flask(__name__)
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
-print(CLIENT_ID)
+# print(CLIENT_ID)
 # engine = create_engine(
   #  'postgresql://catalog:2018catitem@localhost/catalogitems',
   #  connect_args={
@@ -106,33 +106,33 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-    print("This is the code: %s "%code)
+    # print("This is the code: %s "%code)
     try:
         # Upgrade the authorized code into a credentials object
         oauth_flow = flow_from_clientsecrets('/var/www/catalog-linux-server/client_secrets.json', scope='')
-        print("THIS IS OAUTHFLOW:%s" % oauth_flow)
+        # print("THIS IS OAUTHFLOW:%s" % oauth_flow)
         oauth_flow.redirect_uri = 'postmessage'
-        print("THIS IS OAUTHFLOWREDI:%s "%oauth_flow.redirect_uri)
+        # print("THIS IS OAUTHFLOWREDI:%s "%oauth_flow.redirect_uri)
         credentials = oauth_flow.step2_exchange(code)
-        print("THIS CREDENTIALS: %s"%credentials)
+        # print("THIS CREDENTIALS: %s"%credentials)
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code. '), 401)
         response.headers['Content-Type'] = 'application/json'
         print('Failed to upgrade the authorization code. ')
         return response
-    print("RESPONSE")    
-    print(response)    
+    # print("RESPONSE")    
+        
     # Check that the access token is valid.
     access_token = credentials.access_token
-    print("ACCESS TOKEN: %s" %access_token)
+    # print("ACCESS TOKEN: %s" %access_token)
     url = (
         'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' %
         access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
-    print("Result is %s" % result)
+    # print("Result is %s" % result)
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 50)
         response.headers['Content-Type'] = 'application/json'
