@@ -106,14 +106,14 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-    print("This is the code: "%code)
+    print("This is the code: %s "%code)
     try:
         # Upgrade the authorized code into a credentials object
         oauth_flow = flow_from_clientsecrets('/var/www/catalog-linux-server/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
-        print(oauth_flow)
-        print(credentials)
+        print("THIS IS OAUTH FLOW:%s "%oauth_flow)
+        print("THIS CREDENTIALS: %s"%credentials)
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code. '), 401)
