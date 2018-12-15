@@ -82,7 +82,7 @@ def csrf_protect():
     # Only aply for all endpoints except Login endpoint for Google
     if request.method == "POST" and (request.endpoint != 'gconnect'):
         token = state
-        print("THIS IS TOKEN: %s"%toke)
+        print("THIS IS TOKEN: %s"%token)
         print("THIS IS: %s" % request.form.get('_csrf_token'))
         # Forbidden action if there is not code or it is fake
         if not token or token != request.form.get('_csrf_token'):
