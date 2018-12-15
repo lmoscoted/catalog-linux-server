@@ -33,7 +33,7 @@ app = Flask(__name__)
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
-
+print(CLIENT_ID)
 # engine = create_engine(
   #  'postgresql://catalog:2018catitem@localhost/catalogitems',
   #  connect_args={
@@ -112,7 +112,8 @@ def gconnect():
         oauth_flow = flow_from_clientsecrets('/var/www/catalog-linux-server/client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
-
+        print(oauth_flow)
+        print(credentials)
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code. '), 401)
