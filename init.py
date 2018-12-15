@@ -75,14 +75,14 @@ def some_random_string():
 
 state = some_random_string()
 
-print("THIS is state: %s" %state)
+print("THIS is state: %s" % state)
 # CFSR Protection
 @app.before_request
 def csrf_protect():
     # Only aply for all endpoints except Login endpoint for Google
     if request.method == "POST" and (request.endpoint != 'gconnect'):
         token = state
-        print("THIS IS TOKEN: %s"%token)
+        print("THIS IS TOKEN: %s" % token)
         print("THIS IS _csrf_token: %s" % request.form.get('_csrf_token'))
         # Forbidden action if there is not code or it is fake
         if not token or token != request.form.get('_csrf_token'):
@@ -327,6 +327,7 @@ def showCategories():
 
 @app.route('/catalog/new', methods=['GET', 'POST'])
 def newCategory():
+    print("TOKEN NEW CAT: %s" % state)
     # Login required for creating a new category
     if 'username' not in login_session:
         return redirect('/login')
@@ -355,7 +356,7 @@ def editCategory(category_name):
     # Login required for this action
     if 'username' not in login_session:
         return redirect('/login')
-
+    print("TOKEN NEW CAT: %s" % state)
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
     # Only category owner can edit categories
