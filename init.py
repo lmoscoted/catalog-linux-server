@@ -336,22 +336,34 @@ def newCategory():
 
     if request.method == 'POST':
         # Add category only if it does not exist on the DB. 
-        category_exist = session.query(Category).filter_by(name=request.form['name']).one()    
-        if not category_exist:
-            category_new = Category(
-                name=request.form['name'], user_id=getUserID(
-                    login_session['email']))
-            session.add(category_new)
-            session.commit()
-            flash('Category %s created!' % category_new.name)
-            return render_template(
-                'newItem.html',
-                category_name=category_new.name,
-                categories=categories, state=state)
-        else:
-            flash('Category %s already exists!' % category_new.name) 
-            return render_template('newcategory.html', categories=categories,
-                               state=state)    
+        # category_exist = session.query(Category).filter_by(name=request.form['name']).one()    
+        # if not category_exist:
+        #     category_new = Category(
+        #         name=request.form['name'], user_id=getUserID(
+        #             login_session['email']))
+        #     session.add(category_new)
+        #     session.commit()
+        #     flash('Category %s created!' % category_new.name)
+        #     return render_template(
+        #         'newItem.html',
+        #         category_name=category_new.name,
+        #         categories=categories, state=state)
+        # else:
+        #     flash('Category %s already exists!' % category_new.name) 
+        #     return render_template('newcategory.html', categories=categories,
+        #                        state=state)
+        category_new = Category(
+            name=request.form['name'], user_id=getUserID("ing.luis.moscote@gmail.com"))
+            # name=request.form['name'], user_id=getUserID(
+            #     login_session['email']))
+        session.add(category_new)
+        session.commit()
+        flash('Category %s created!' % category_new.name)
+        return render_template(
+            'newItem.html',
+            category_name=category_new.name,
+            categories=categories, state=state)
+
     else:
         return render_template('newcategory.html', categories=categories,
                                state=state)
