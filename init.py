@@ -87,17 +87,17 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
-# CFSR Protection
-@app.before_request
-def csrf_protect():
-    # Only aply for all endpoints except Login endpoint for Google
-    if request.method == "POST" and (request.endpoint != 'gconnect'):
-        # token = state
-        print("THIS IS STATE CSFR: %s" % state)
-        print("THIS IS _csrf_token: %s" % request.form.get('_csrf_token'))
-        # Forbidden action if there is not code or it is fake
-        if not state or state != request.form.get('_csrf_token'):
-            abort(403)
+# # CFSR Protection
+# @app.before_request
+# def csrf_protect():
+#     # Only aply for all endpoints except Login endpoint for Google
+#     if request.method == "POST" and (request.endpoint != 'gconnect'):
+#         # token = state
+#         print("THIS IS STATE CSFR: %s" % state)
+#         print("THIS IS _csrf_token: %s" % request.form.get('_csrf_token'))
+#         # Forbidden action if there is not code or it is fake
+#         if not state or state != request.form.get('_csrf_token'):
+#             abort(403)
 
 # Handle the code sent back from the callback method
 # Enpoint for the google login
