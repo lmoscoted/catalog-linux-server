@@ -387,9 +387,9 @@ def editCategory(category_name):
         except NoResultFound: 
 
             if request.form['name']:
-            category_edit.name = request.form['name']
-            session.add(category_edit)
-            session.commit()
+                category_edit.name = request.form['name']
+                session.add(category_edit)
+                session.commit()
             flash('Category %s successfully edited!' % category_edit.name)
             return redirect(url_for('showCategories'))
         
