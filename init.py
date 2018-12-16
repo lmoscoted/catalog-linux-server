@@ -369,11 +369,11 @@ def editCategory(category_name):
     categories = session.query(Category).order_by(Category.name)
 
     # Only category owner can edit categories
-    if category_edit.user_id != login_session['user_id']:
-        return "<script>function myFunction() {alert('You are no authorized \
-                to edit this category. Please create a new category in order \
-                to edit');location.href='/catalog';}</script><body \
-                onload='myFunction()''>"
+    # if category_edit.user_id != login_session['user_id']:
+    #     return "<script>function myFunction() {alert('You are no authorized \
+    #             to edit this category. Please create a new category in order \
+    #             to edit');location.href='/catalog';}</script><body \
+    #             onload='myFunction()''>"
 
     if request.method == 'POST':
         category_exist = session.query(Category).filter_by(name=request.form['name']).one()
