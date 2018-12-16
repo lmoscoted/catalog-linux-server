@@ -79,6 +79,18 @@
           </div>
         </div>
         <div class="col-lg-9">
+          <div class= 'flash' style="color: black; margin: 5px auto;font-size:large;font-weight: bold">
+             {% with messages = get_flashed_messages() %}
+             {% if messages %} 
+        
+              <ul>
+            {% for message in messages %}
+                <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+             </ul>
+           {% endif %}
+           {% endwith %}
+          </div>
 
           <div class="card mt-4">
             <!-- <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt=""> -->

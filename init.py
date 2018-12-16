@@ -349,7 +349,7 @@ def newCategory():
                 category_name=category_new.name,
                 categories=categories, state=state)
         else:
-            flash('Category %s has been created already!' % category_new.name) 
+            flash('Category %s already exists!' % category_new.name) 
             return render_template('newcategory.html', categories=categories,
                                state=state)    
     else:
@@ -367,6 +367,7 @@ def editCategory(category_name):
     print("TOKEN EDIT CAT: %s" % state)
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
+
     # Only category owner can edit categories
     if category_edit.user_id != login_session['user_id']:
         return "<script>function myFunction() {alert('You are no authorized \
@@ -375,12 +376,21 @@ def editCategory(category_name):
                 onload='myFunction()''>"
 
     if request.method == 'POST':
-        if request.form['name']:
-            category_edit.name = request.form['name']
-            session.add(category_edit)
-            session.commit()
-        flash('Category %s successfully edited!' % category_edit.name)
-        return redirect(url_for('showCategories'))
+        category_exist = session.query(Category).filter_by(name=request.form['name']).one()
+        if not category_exist:    
+            if request.form['name']:
+                category_edit.name = request.form['name']
+                session.add(category_edit)
+                session.commit()
+            flash('Category %s successfully edited!' % category_edit.name)
+            return redirect(url_for('showCategories'))
+        else:
+            flash('Category %s already exists!' % category_edit.name)
+            return render_template(
+            'editcategory.html',
+            category_name=category_edit.name,
+            categories=categories, state=state)
+                
     else:
         return render_template(
             'editcategory.html',
