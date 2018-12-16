@@ -328,7 +328,7 @@ def showCategories():
 @app.route('/catalog/new', methods=['GET', 'POST'])
 def newCategory():
     # print("TOKEN NEW CAT: %s" % state)
-    Login required for creating a new category
+    # Login required for creating a new category
     if 'username' not in login_session:
         return redirect('/login')
     categories = session.query(Category).order_by(Category.name)
