@@ -61,7 +61,9 @@ Base.metadata.bind = engine  # Makes connection between class and tables
 DBSession = sessionmaker(bind=engine)
 session = DBSession()  # interefaz that allow to create DB operations
 # print("OK")
+state = some_random_string()
 
+print("THIS is state: %s" % state)
 
 # Create random string for the Google Code and CSFR token
 def some_random_string():
@@ -73,9 +75,7 @@ def some_random_string():
 
 # print("OK")
 
-state = some_random_string()
 
-print("THIS is state: %s" % state)
 # CFSR Protection
 @app.before_request
 def csrf_protect():
@@ -356,7 +356,7 @@ def editCategory(category_name):
     # Login required for this action
     if 'username' not in login_session:
         return redirect('/login')
-    print("TOKEN NEW CAT: %s" % state)
+    print("TOKEN EDIT CAT: %s" % state)
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
     # Only category owner can edit categories
