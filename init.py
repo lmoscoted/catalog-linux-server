@@ -380,7 +380,7 @@ def editCategory(category_name):
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
 
-    Only category owner can edit categories
+    # Only category owner can edit categories
     if category_edit.user_id != login_session['user_id']:
         return "<script>function myFunction() {alert('You are no authorized \
                 to edit this category. Please create a new category in order \
@@ -431,7 +431,7 @@ def deleteCategory(category_name):
     items_dele = session.query(Item).filter_by(
         category_id=category_dele.id).all()
     categories = session.query(Category).order_by(Category.name)
-    # Only category owner can edit categories
+    # Only category owner can delete categories
     if category_dele.user_id != login_session['user_id']:
         return "<script>function myFunction() {alert('You are no \
                 authorized to delete this category. Please access \
