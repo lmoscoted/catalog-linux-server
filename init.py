@@ -360,7 +360,7 @@ def newCategory():
         session.commit()
         flash('Category %s created!' % category_new.name)
         return render_template(
-            'newItem.html',
+            'newitem.html',
             category_name=category_new.name,
             categories=categories, state=state)
 
