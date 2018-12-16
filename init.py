@@ -373,7 +373,7 @@ def newCategory():
 
 @app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
 def editCategory(category_name):
-    Login required for this action
+    # Login required for this action
     if 'username' not in login_session:
         return redirect('/login')
     # print("TOKEN EDIT CAT: %s" % state)
@@ -423,7 +423,7 @@ def editCategory(category_name):
 
 @app.route('/catalog/<string:category_name>/delete', methods=['GET', 'POST'])
 def deleteCategory(category_name):
-    Login required for this action
+    # Login required for this action
     if 'username' not in login_session:
         return redirect('/login')
 
