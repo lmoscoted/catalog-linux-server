@@ -61,9 +61,7 @@ Base.metadata.bind = engine  # Makes connection between class and tables
 DBSession = sessionmaker(bind=engine)
 session = DBSession()  # interefaz that allow to create DB operations
 # print("OK")
-state = some_random_string()
 
-print("THIS is state: %s" % state)
 
 # Create random string for the Google Code and CSFR token
 def some_random_string():
@@ -74,7 +72,9 @@ def some_random_string():
     return random_string
 
 # print("OK")
+state = some_random_string()
 
+print("THIS is state: %s" % state)
 
 # CFSR Protection
 @app.before_request
