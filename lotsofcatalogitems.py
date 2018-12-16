@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import sys 
 import csv
 
 from database_setup import Category, Base, Item, User
@@ -22,7 +23,8 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # SET client_encoding TO 'UTF-8'
-
+reload(sys)
+sys.setdefaultencoding('utf8')
 # Users creation
 with open('user.csv', 'r') as user_file:
 
@@ -50,14 +52,15 @@ with open('category.csv', 'r') as category_file:
         session.commit()
 
 # Items creation
-with open('item.csv', 'r') as item_file:
+with open('item.csv','rb') as item_file:
 
     item_dict = csv.DictReader(item_file)
 
     for it in item_dict:
-        
+        print(it['description'])       
         item = Item(name=it['name'],
-                    description=buffer(it['description']),
+                    #description=bytearray(it['description'],'windows-1252'),
+                    description=(it['description']),
                     picture=it['picture'],
                     price=it['price'],
                     category_id=(it['category_id']),

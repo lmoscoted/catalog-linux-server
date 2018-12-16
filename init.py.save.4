@@ -13,6 +13,7 @@ import random
 import requests
 import json
 import httplib2
+import psycopg2
 
 from sqlalchemy import create_engine
 from sqlalchemy import desc
@@ -28,21 +29,38 @@ from oauth2client.client import FlowExchangeError
 from database_setup import Base, Category, Item, User
 
 app = Flask(__name__)
-
+# print("OK")
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
-
+print(CLIENT_ID)
+# engine = create_engine(
+  #  'postgresql://catalog:2018catitem@localhost/catalogitems',
+  #  connect_args={
+  #      'check_same_thread': False},
+  #  poolclass=StaticPool)  # Which DB python will communicate with
 engine = create_engine(
     'postgresql://catalog:2018catitem@localhost/catalogitems',
-    connect_args={
-        'check_same_thread': False},
-    poolclass=StaticPool)  # Which DB python will communicate with
+    poolclass=StaticPool) 
+
 Base.metadata.bind = engine  # Makes connection between class and tables
+# print(engine)
+#--------------------------------------------------------------------------
+# try:
+#     conn = psycopg2.connect("dbname='catalogitems' user='catalog'host='localhost' password='2018catitem'")
+#     print("connected to the database")
+# except:
+#     print("unable to connect to the database")
+
+
+#---------------------------------------------------------------------------
+
+# print("OK")
 
 # Link of communication between our code execution
 DBSession = sessionmaker(bind=engine)
 session = DBSession()  # interefaz that allow to create DB operations
+# print("OK")
 
 
 # Create random string for the Google Code and CSFR token
@@ -53,6 +71,7 @@ def some_random_string():
             string.digits) for x in xrange(32))
     return random_string
 
+# print("OK")
 
 state = some_random_string()
 
@@ -68,6 +87,7 @@ def csrf_protect():
             abort(403)
 
 # Endpint for the login
+# print("OK")
 
 
 @app.route('/login', endpoint='showLogin')
@@ -86,19 +106,24 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     code = request.data
-
+    print("This is the code: %s "%code)
     try:
         # Upgrade the authorized code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
-        oauth_flow.redirect_uri = 'postmessage'
+        oauth_flow = flow_from_clientsecrets('/var/www/catalog-linux-server/client_secrets.json', scope='')
+        print("THIS OAUTHFLOW: %s"%oauth_flow)
+        oauth_flow.redirect_uri = 'postmessage
+'
         credentials = oauth_flow.step2_exchange(code)
-
+        print("THIS IS OAUTH FLOW:%s "%oauth_flow)
+        print("THIS CREDENTIALS: %s"%credentials)
     except FlowExchangeError:
         response = make_response(
             json.dumps('Failed to upgrade the authorization code. '), 401)
         response.headers['Content-Type'] = 'application/json'
         print('Failed to upgrade the authorization code. ')
         return response
+    print("RESPONSE")    
+    print(response)    
     # Check that the access token is valid.
     access_token = credentials.access_token
     url = (
@@ -107,6 +132,7 @@ def gconnect():
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
     # If there was an error in the access token info, abort.
+    print("Result is %s" % result)
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 50)
         response.headers['Content-Type'] = 'application/json'
@@ -215,7 +241,11 @@ def disconnect():
 # Making an API Endpoint (GET Request)
 @app.route('/catalog/JSON')
 def categoriesJSON():
-    category_list = session.query(Category).all()
+    # print("Test3")
+    category_list = session.query(Category)
+    # print(iter(category_list))
+    # print(type(category_list))
+    # print(category_list)
 
     if not category_list:
         error = [{'Error Message': 'There are not available categories '}]
@@ -252,22 +282,31 @@ def categoryItemsJSON(category_name, item_name):
 
 # Main web page
 
+# print("OK")
 
 @app.route('/')
 @app.route('/catalog', methods=['GET', 'POST'])
 def showCategories():
+    # print("OK Main Page")
 
     categories = session.query(Category).order_by(Category.name)
     # items = session.query(Item).order_by("Item.date_update desc")
     items = session.query(Item).order_by(desc(Item.date_update))
     latest_items = items.limit(10)
+    # print(categories)
     category_item = []
+    # print("OK2 query Login")
     # Getting the category names for the latest items
     for i in latest_items:
+        # print("PRINT 1 FOR")
         cat_name = session.query(Category).filter_by(id=i.category_id).one()
+        # print("PRINT 2 FOR")
         category_item.append(cat_name.name)
+        # print(i.name)
+    # print("OK2 for query")
     # Run public template for unregistered users
     if 'username' not in login_session:
+        # print("OK if ")
         return render_template(
             'publiccategories.html',
             categories=categories,
@@ -275,6 +314,7 @@ def showCategories():
             latest_items=latest_items,
             category_item=category_item)
     else:
+        # print("OK else")
         return render_template(
             'categories.html',
             categories=categories,
@@ -601,6 +641,6 @@ def createUser(login_session):
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
-    #app.debug = True
-    app.run(host='35.247.19', port=80)
+    app.debug = True
+    app.run(host='0.0.0.0')
     # app.run()
