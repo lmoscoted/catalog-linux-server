@@ -262,6 +262,8 @@ https://www.youtube.com/watch?v=wq0saslschw
 https://blog.codeasite.com/how-do-i-find-apache-http-server-log-files/
 
 https://www.ionos.com/community/server-cloud-infrastructure/apache/how-to-fix-http-error-code-500-internal-server-error/
+https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
+
 
 
 

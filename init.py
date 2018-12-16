@@ -327,10 +327,10 @@ def showCategories():
 
 @app.route('/catalog/new', methods=['GET', 'POST'])
 def newCategory():
-    print("TOKEN NEW CAT: %s" % state)
-    # Login required for creating a new category
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    # print("TOKEN NEW CAT: %s" % state)
+    Login required for creating a new category
+    if 'username' not in login_session:
+        return redirect('/login')
     categories = session.query(Category).order_by(Category.name)
 
 
@@ -353,9 +353,9 @@ def newCategory():
         #     return render_template('newcategory.html', categories=categories,
         #                        state=state)
         category_new = Category(
-            name=request.form['name'], user_id=getUserID("ing.luis.moscote@gmail.com"))
-            # name=request.form['name'], user_id=getUserID(
-            #     login_session['email']))
+            # name=request.form['name'], user_id=getUserID("ing.luis.moscote@gmail.com"))
+            name=request.form['name'], user_id=getUserID(
+                login_session['email']))
         session.add(category_new)
         session.commit()
         flash('Category %s created!' % category_new.name)
@@ -373,19 +373,19 @@ def newCategory():
 
 @app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
 def editCategory(category_name):
-    # Login required for this action
-    # if 'username' not in login_session:
-    #     return redirect('/login')
-    print("TOKEN EDIT CAT: %s" % state)
+    Login required for this action
+    if 'username' not in login_session:
+        return redirect('/login')
+    # print("TOKEN EDIT CAT: %s" % state)
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
 
-    # Only category owner can edit categories
-    # if category_edit.user_id != login_session['user_id']:
-    #     return "<script>function myFunction() {alert('You are no authorized \
-    #             to edit this category. Please create a new category in order \
-    #             to edit');location.href='/catalog';}</script><body \
-    #             onload='myFunction()''>"
+    Only category owner can edit categories
+    if category_edit.user_id != login_session['user_id']:
+        return "<script>function myFunction() {alert('You are no authorized \
+                to edit this category. Please create a new category in order \
+                to edit');location.href='/catalog';}</script><body \
+                onload='myFunction()''>"
 
     if request.method == 'POST':
 
@@ -423,9 +423,9 @@ def editCategory(category_name):
 
 @app.route('/catalog/<string:category_name>/delete', methods=['GET', 'POST'])
 def deleteCategory(category_name):
-    # Login required for this action
-    # if 'username' not in login_session:
-    #     return redirect('/login')
+    Login required for this action
+    if 'username' not in login_session:
+        return redirect('/login')
 
     category_dele = session.query(Category).filter_by(name=category_name).one()
     items_dele = session.query(Item).filter_by(
