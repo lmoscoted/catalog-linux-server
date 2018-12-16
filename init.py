@@ -333,17 +333,24 @@ def newCategory():
         return redirect('/login')
     categories = session.query(Category).order_by(Category.name)
 
+
     if request.method == 'POST':
-        category_new = Category(
-            name=request.form['name'], user_id=getUserID(
-                login_session['email']))
-        session.add(category_new)
-        session.commit()
-        flash('Category %s created!' % category_new.name)
-        return render_template(
-            'newItem.html',
-            category_name=category_new.name,
-            categories=categories, state=state)
+            # Add category only if it does not exist on the DB. 
+        if not session.query(Category).filter_by(name=request.form['name']).one()
+            category_new = Category(
+                name=request.form['name'], user_id=getUserID(
+                    login_session['email']))
+            session.add(category_new)
+            session.commit()
+            flash('Category %s created!' % category_new.name)
+            return render_template(
+                'newItem.html',
+                category_name=category_new.name,
+                categories=categories, state=state)
+        else:
+            flash('Category %s has been created already!' % category_new.name) 
+            return render_template('newcategory.html', categories=categories,
+                               state=state)    
     else:
         return render_template('newcategory.html', categories=categories,
                                state=state)
