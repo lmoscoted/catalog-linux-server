@@ -335,8 +335,9 @@ def newCategory():
 
 
     if request.method == 'POST':
-            # Add category only if it does not exist on the DB. 
-        if not session.query(Category).filter_by(name=request.form['name']).one()
+        # Add category only if it does not exist on the DB. 
+        category_exist = session.query(Category).filter_by(name=request.form['name']).one()    
+        if not category_exist:
             category_new = Category(
                 name=request.form['name'], user_id=getUserID(
                     login_session['email']))
