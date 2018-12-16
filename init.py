@@ -329,8 +329,8 @@ def showCategories():
 def newCategory():
     print("TOKEN NEW CAT: %s" % state)
     # Login required for creating a new category
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     categories = session.query(Category).order_by(Category.name)
 
 
@@ -362,8 +362,8 @@ def newCategory():
 @app.route('/catalog/<string:category_name>/edit', methods=['GET', 'POST'])
 def editCategory(category_name):
     # Login required for this action
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     print("TOKEN EDIT CAT: %s" % state)
     category_edit = session.query(Category).filter_by(name=category_name).one()
     categories = session.query(Category).order_by(Category.name)
@@ -403,8 +403,8 @@ def editCategory(category_name):
 @app.route('/catalog/<string:category_name>/delete', methods=['GET', 'POST'])
 def deleteCategory(category_name):
     # Login required for this action
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
 
     category_dele = session.query(Category).filter_by(name=category_name).one()
     items_dele = session.query(Item).filter_by(
