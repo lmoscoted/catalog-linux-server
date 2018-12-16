@@ -76,6 +76,17 @@ state = some_random_string()
 
 print("THIS is state: %s" % state)
 
+
+
+# Endpoint for the login
+# print("OK")
+
+@app.route('/login', endpoint='showLogin')
+def showLogin():
+
+    login_session['state'] = state
+    return render_template('login.html', STATE=state)
+    
 # CFSR Protection
 @app.before_request
 def csrf_protect():
@@ -87,17 +98,6 @@ def csrf_protect():
         # Forbidden action if there is not code or it is fake
         if not state or state != request.form.get('_csrf_token'):
             abort(403)
-
-# Endpint for the login
-# print("OK")
-
-
-@app.route('/login', endpoint='showLogin')
-def showLogin():
-
-    login_session['state'] = state
-    return render_template('login.html', STATE=state)
-
 
 # Handle the code sent back from the callback method
 # Enpoint for the google login
