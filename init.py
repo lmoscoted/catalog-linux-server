@@ -518,7 +518,7 @@ def newItem(category_name):
                 categories=categories, state=state))
     else:
         return render_template(
-            'newItem.html',
+            'newitem.html',
             category_name=category.name,
             categories=categories,
             state=state)
