@@ -376,20 +376,24 @@ def editCategory(category_name):
     #             onload='myFunction()''>"
 
     if request.method == 'POST':
-        category_exist = session.query(Category).filter_by(name=request.form['name']).one()
-        if not category_exist:    
-            if request.form['name']:
-                category_edit.name = request.form['name']
-                session.add(category_edit)
-                session.commit()
-            flash('Category %s successfully edited!' % category_edit.name)
-            return redirect(url_for('showCategories'))
-        else:
+
+        try:
+            category_exist = session.query(Category).filter_by(name=request.form['name']).one()
             flash('Category %s already exists!' % category_edit.name)
             return render_template(
             'editcategory.html',
             category_name=category_edit.name,
             categories=categories, state=state)
+        except NoResultFound: 
+
+            if request.form['name']:
+            category_edit.name = request.form['name']
+            session.add(category_edit)
+            session.commit()
+            flash('Category %s successfully edited!' % category_edit.name)
+            return redirect(url_for('showCategories'))
+        
+            
                 
     else:
         return render_template(
