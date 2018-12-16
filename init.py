@@ -33,7 +33,7 @@ app = Flask(__name__)
 # Google Client ID
 CLIENT_ID = json.loads(
     open('/var/www/catalog-linux-server/client_secrets.json', 'r').read())['web']['client_id']
-# print(CLIENT_ID)
+print(CLIENT_ID)
 # engine = create_engine(
   #  'postgresql://catalog:2018catitem@localhost/catalogitems',
   #  connect_args={
@@ -86,7 +86,7 @@ def showLogin():
 
     login_session['state'] = state
     return render_template('login.html', STATE=state)
-    
+
 # CFSR Protection
 @app.before_request
 def csrf_protect():
